@@ -13,6 +13,8 @@ module RGeo
       def initialize( geo_factory, interesting_tags = %w{coordinates Point LineString LinearRing Polygon MultiGeometry}.freeze )
         @geo_factory = geo_factory
         @tags = interesting_tags
+        @current_builder = nil
+        @first_builder = nil
       end
 
       def tag_start(name, attrs)
@@ -39,25 +41,30 @@ module RGeo
       end
 
       def tag_end(name)
-        if @first_builder == @current_builder
+        if !tags.include?(name)
+          nil
+        elsif @first_builder == @current_builder
           @result = @first_builder.build
         else
-          @current_builder.build
-          
           case name
-          when "coordinates"      
+          when "coordinates"
+            @current_builder.build
             @current_builder.parent.points = @current_builder.points
             @current_builder = @current_builder.parent
           when "Point"
+            @current_builder.build
             @current_builder.parent.add_point( @current_builder.point )
             @current_builder = @current_builder.parent
           when "LineString"
+            @current_builder.build
             @current_builder.parent.add_line_string( @current_builder.line_string )
             @current_builder = @current_builder.parent
           when "LinearRing"
+            @current_builder.build
             @current_builder.parent.add_linear_ring( @current_builder.linear_ring )
             @current_builder = @current_builder.parent
           when "Polygon"
+            @current_builder.build
             @current_builder.parent.add_polygon( @current_builder.polygon )
             @current_builder = @current_builder.parent
           else

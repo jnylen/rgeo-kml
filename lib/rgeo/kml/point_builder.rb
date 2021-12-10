@@ -11,6 +11,7 @@ module RGeo
       end
       
       def build
+        puts points.inspect
         @point = points.first
       end
       

@@ -54,26 +54,12 @@ module RGeo
           assert(::RGeo::Kml.decode(kml_, :geo_factory => @geo_factory_z).equals?(object_))
         end
 
+        def test_point_2
+          object_ = @geo_factory_z.point(14.5441725690769, 56.26101253776282, 0)
+          kml_ = "<Point>\n<extrude>0</extrude><altitudeMode>clampToGround</altitudeMode>\n<coordinates> 14.5441725690769,56.26101253776282,0</coordinates>\n</Point>"
 
-        # def test_point_m
-        #   object_ = @geo_factory_m.point(10, 20, -1)
-        #   kml_ = "<Point>\n<coordinates>10.0,20.0,-1.0</coordinates>\n</Point>\n"
-          
-        #   assert_equal(kml_, ::RGeo::Kml.encode(object_))
-        #   assert(::RGeo::Kml.decode(kml_, :geo_factory => @geo_factory_m).eql?(object_))
-        # end
-
-
-      #   def test_point_zm
-      #     object_ = @geo_factory_zm.point(10, 20, -1, -2)
-      #     kml_ = {
-      #       'type' => 'Point',
-      #       'coordinates' => [10.0, 20.0, -1.0, -2.0],
-      #     }
-      #     assert_equal(kml_, ::RGeo::Kml.encode(object_))
-      #     assert(::RGeo::Kml.decode(kml_, :geo_factory => @geo_factory_zm).eql?(object_))
-      #   end
-
+          assert(::RGeo::Kml.decode(kml_, :geo_factory => @geo_factory_z) == object_ )
+        end
 
         def test_line_string
           object_ = @geo_factory.line_string([@geo_factory.point(10, 20), @geo_factory.point(12, 22), @geo_factory.point(-3, 24)])
@@ -220,106 +206,6 @@ module RGeo
           assert_equal(kml_, ::RGeo::Kml.encode(object_))
           assert(::RGeo::Kml.decode(kml_, :geo_factory => @geo_factory) == object_ )
         end
-
-
-      #   def test_feature
-      #     object_ = @entity_factory.feature(@geo_factory.point(10, 20))
-      #     kml_ = {
-      #       'type' => 'Feature',
-      #       'geometry' => {
-      #         'type' => 'Point',
-      #         'coordinates' => [10.0, 20.0],
-      #       },
-      #       'properties' => {},
-      #     }
-      #     assert_equal(kml_, ::RGeo::Kml.encode(object_))
-      #     assert(::RGeo::Kml.decode(kml_, :geo_factory => @geo_factory).eql?(object_))
-      #   end
-
-
-      #   def test_feature_nulls
-      #     kml_ = {
-      #       'type' => 'Feature',
-      #       'geometry' => nil,
-      #       'properties' => nil,
-      #     }
-      #     obj_ = ::RGeo::Kml.decode(kml_, :geo_factory => @geo_factory)
-      #     assert_not_nil(obj_)
-      #     assert_nil(obj_.geometry)
-      #     assert_equal({}, obj_.properties)
-      #   end
-
-
-      #   def test_feature_complex
-      #     object_ = @entity_factory.feature(@geo_factory.point(10, 20), 2, {'prop1' => 'foo', 'prop2' => 'bar'})
-      #     kml_ = {
-      #       'type' => 'Feature',
-      #       'geometry' => {
-      #         'type' => 'Point',
-      #         'coordinates' => [10.0, 20.0],
-      #       },
-      #       'id' => 2,
-      #       'properties' => {'prop1' => 'foo', 'prop2' => 'bar'},
-      #     }
-      #     assert_equal(kml_, ::RGeo::Kml.encode(object_))
-      #     assert(::RGeo::Kml.decode(kml_, :geo_factory => @geo_factory).eql?(object_))
-      #   end
-
-
-      #   def test_feature_with_symbol_prop_keys
-      #     object_ = @entity_factory.feature(@geo_factory.point(10, 20), 2, {:prop1 => 'foo', 'prop2' => 'bar'})
-      #     kml_ = {
-      #       'type' => 'Feature',
-      #       'geometry' => {
-      #         'type' => 'Point',
-      #         'coordinates' => [10.0, 20.0],
-      #       },
-      #       'id' => 2,
-      #       'properties' => {'prop1' => 'foo', 'prop2' => 'bar'},
-      #     }
-      #     assert_equal('foo', object_.property('prop1'))
-      #     assert_equal('bar', object_.property(:prop2))
-      #     assert_equal(kml_, ::RGeo::Kml.encode(object_))
-      #     assert(::RGeo::Kml.decode(kml_, :geo_factory => @geo_factory).eql?(object_))
-      #   end
-
-
-      #   def test_feature_collection
-      #     object_ = @entity_factory.feature_collection([@entity_factory.feature(@geo_factory.point(10, 20)), @entity_factory.feature(@geo_factory.point(11, 22)), @entity_factory.feature(@geo_factory.point(10, 20), 8)])
-      #     kml_ = {
-      #       'type' => 'FeatureCollection',
-      #       'features' => [
-      #         {
-      #           'type' => 'Feature',
-      #           'geometry' => {
-      #             'type' => 'Point',
-      #             'coordinates' => [10.0, 20.0],
-      #           },
-      #           'properties' => {},
-      #         },
-      #         {
-      #           'type' => 'Feature',
-      #           'geometry' => {
-      #             'type' => 'Point',
-      #             'coordinates' => [11.0, 22.0],
-      #           },
-      #           'properties' => {},
-      #         },
-      #         {
-      #           'type' => 'Feature',
-      #           'geometry' => {
-      #             'type' => 'Point',
-      #             'coordinates' => [10.0, 20.0],
-      #           },
-      #           'id' => 8,
-      #           'properties' => {},
-      #         },
-      #       ]
-      #     }
-      #     assert_equal(kml_, ::RGeo::Kml.encode(object_))
-      #     assert(::RGeo::Kml.decode(kml_, :geo_factory => @geo_factory).eql?(object_))
-      #   end
-
 
       end
 
