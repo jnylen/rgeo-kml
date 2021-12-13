@@ -42,7 +42,7 @@ module RGeo
 
       def tag_end(name)
         if !tags.include?(name)
-          nil
+          @result = @first_builder.build
         elsif @first_builder == @current_builder
           @result = @first_builder.build
         else
